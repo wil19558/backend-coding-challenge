@@ -1,0 +1,8 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.wil19558.coveocc</groupId>
+  <artifactId>nacityfinder</artifactId>
+  <version>0.0.1</version>
+  <name>nacityfinder</name>
+  <description>Simple API that suggests north-american cities based on entered text.</description>
+</project>
