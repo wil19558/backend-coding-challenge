@@ -5,6 +5,10 @@
   <version>0.0.1</version>
   <name>nacityfinder</name>
   <description>Simple API that suggests north-american cities based on entered text.</description>
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+</properties>
   <dependencies>
   	<dependency>
   		<groupId>com.sparkjava</groupId>
