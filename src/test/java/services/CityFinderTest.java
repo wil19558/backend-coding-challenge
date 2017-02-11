@@ -16,8 +16,8 @@ public class CityFinderTest {
 
 	@Test
 	public void testFindAndScore() throws Exception {
-		CityRegistry
-		CityFinder cityFinder = new CityFinder(registry)
+		//CityRegistry
+		//CityFinder cityFinder = new CityFinder(registry)
 	}
 
 }
