@@ -1,4 +1,4 @@
-package nacityfinder;
+package rest;
 
 import spark.Request;
 import spark.Response;

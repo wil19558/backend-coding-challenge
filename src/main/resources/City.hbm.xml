@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+   <class name="City" table="CITY">
+      <meta attribute="class-description">
+         This class contains information about a city 
+      </meta>
+      <id name="dbId" type="int" column="id">
+         <generator class="native"/>
+      </id>
+      <property name="cityId" column="city_id" type="int"/>
+      <property name="name" column="name" type="string"/>
+      <property name="asciiName" column="ascii_name" type="string"/>
+      <property name="lattitude" column="latt" type="double"/>
+      <property name="longitude" column="long" type="double"/>
+      <property name="country" column="country" type="string"/>
+      <property name="state" column="state" type="string"/>
+   </class>
+</hibernate-mapping>

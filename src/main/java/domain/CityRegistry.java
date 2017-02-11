@@ -9,4 +9,8 @@ public interface CityRegistry {
 	void insert(City city);
 	
 	void insert(Collection<City> cities);
+	
+	void exportTo(CityRegistry registry);
+	
+	void clear();
 }

@@ -3,6 +3,7 @@ package nacityfinder;
 import static spark.Spark.*;
 
 import javassist.NotFoundException;
+import rest.LocalPopulateDatabaseRoute;
 
 public class NACityFinderServer {
 	public void run() {
@@ -20,16 +21,13 @@ public class NACityFinderServer {
 	    
 		get("/", (req, rep) -> "Hello World");
 		
-		//Exception handling
+		//Debug route to populate db with file contents
+		get("/local-db-populate", new LocalPopulateDatabaseRoute());
 		
-		exception(NotFoundException.class, (e, request, response) -> {
-		    response.status(404);
-		    response.body("Resource not found");
-		});
-		
+		//Basic exception handling
 		exception(Exception.class, (e, request, response) -> {
 		    response.status(500);
-		    response.body("Internal server error");
+		    response.body("Internal server error:\n" + e.getMessage());
 		});
 	}
 }
