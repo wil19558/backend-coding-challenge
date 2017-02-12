@@ -1,7 +1,6 @@
 package persistence;
 
-import static nacityfinder.Config.*;
-
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,13 +16,14 @@ public class LocalFileCityRegistry implements CityRegistry {
 	
 	private List<City> registry;
 	
-	public LocalFileCityRegistry() throws IOException{
+	public LocalFileCityRegistry(){
 		registry = new LinkedList<City>();
-		importRegistryFrom(getCityRegistryFilePath());
 	}
 	
 	public void importRegistryFrom(String path) throws IOException{
         Path resolvedPath = Paths.get(path);
+        File f = new File(path);
+        System.out.println(f.exists());
 		Files.lines(resolvedPath).forEach(s -> {
 			City city = new City();
 			try{

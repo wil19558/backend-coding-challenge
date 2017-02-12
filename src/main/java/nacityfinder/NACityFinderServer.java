@@ -2,10 +2,10 @@ package nacityfinder;
 
 import static spark.Spark.*;
 
-import javassist.NotFoundException;
 import rest.LocalPopulateDatabaseRoute;
 
 public class NACityFinderServer {
+	
 	public void run() {
     	prefillDatabase();
         startServer();

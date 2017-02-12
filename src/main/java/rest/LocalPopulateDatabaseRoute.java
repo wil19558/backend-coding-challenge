@@ -1,6 +1,9 @@
 package rest;
 
 import java.io.IOException;
+import java.net.URL;
+
+import org.junit.Test;
 
 import persistence.LocalFileCityRegistry;
 import persistence.PostgreSQLCityRegistry;
@@ -12,33 +15,40 @@ public class LocalPopulateDatabaseRoute implements Route{
 
 	@Override
 	public Object handle(Request arg0, Response arg1) throws Exception {
-		String result = "";
+		StringBuilder resultBuilder = new StringBuilder();
 		//This loads the cities from the local file.
 		try{
 			LocalFileCityRegistry localRegistry = new LocalFileCityRegistry();
 			PostgreSQLCityRegistry remoteRegistry = new PostgreSQLCityRegistry();
 			
+			resultBuilder.append("File opened successfully.\n");
+			
 			if(localRegistry.getCityCount() <= 0){
-				throw new Exception("Local file successfully opened, but no cities were loaded.");
+				throw new Exception("No cities were loaded.");
 			}
 			
+			resultBuilder.append(localRegistry.getCityCount() + " cities added to local (in memory) registry.\n");
+			
 			if(!remoteRegistry.isConnectionAvailable()){
-				throw new Exception("Local file and cities found and loaded, but unable to initiate remote database connection.");
+				throw new Exception("Unable to initiate remote database connection.");
 			}
+			
+			resultBuilder.append("Connection to remote database successful.\n");
 			
 			remoteRegistry.clear();
 			localRegistry.exportTo(remoteRegistry);
-			result = "Successfully populated remote database.";
+			resultBuilder.append("Successfully populated remote database.\n");
 			
 		}
 		catch(IOException e){
-			result = "Unable to find file. The server is probably not running local.";
+			//URL location = Test.class.getProtectionDomain().getCodeSource().getLocation();
+			resultBuilder.append("Unable to find file. The server is probably not running local. Current root : " + System.getProperty("user.dir"));
 		}
 		catch(Exception e){
-			result = "Error occured : " + e.getMessage();
+			resultBuilder.append("Error occured : " + e.getMessage());
 		}
 		
-		return result;
+		return resultBuilder.toString();
 	}
 
 }

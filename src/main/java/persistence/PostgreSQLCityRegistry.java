@@ -17,26 +17,37 @@ import domain.City;
 import domain.CityRegistry;
 
 public class PostgreSQLCityRegistry implements CityRegistry {
-	private static SessionFactory factory; 
-	private static final int JDBC_BATCH_SIZE;
-	private static boolean connectionAvailable;
 	
-	static{
+	private static final String JDBC_DATABASE_URL = "jdbc:postgresql://ec2-54-221-255-153.compute-1.amazonaws.com:5432/d36apmh339fm0s?"
+			+ "sslmode=require&user=faimmhvkknyehm&password=a2e6cb788d384ea01888a3e6bcde271e095a7e0bf3ee45bfe9c589afa6988c5b";
+	
+	private static final String DATABASE_URL = "postgres://faimmhvkknyehm:a2e6cb788d384ea01888a3e6bcde271e095a7e0bf3ee45bfe9c589afa6988c5b@"
+			+ "ec2-54-221-255-153.compute-1.amazonaws.com:5432/d36apmh339fm0s";
+	
+	private static SessionFactory factory = null; 
+	private static int jdbcBatchSize = 1;
+	private static boolean connectionAvailable = false;
+	
+	public static void initSessionFactory(){
 		//Load the actual database url at runtime
-		Configuration cfg = new Configuration();
-		cfg.setProperty("hibernate.connection.url", System.getenv("DATABASE_URL"));
-		JDBC_BATCH_SIZE = Integer.parseInt(cfg.getProperty("hibernate.jdbc.batch_size"));
+		Configuration cfg = new Configuration().configure();
+		cfg.setProperty("hibernate.connection.url", JDBC_DATABASE_URL);
+		jdbcBatchSize = Integer.parseInt(cfg.getProperty("hibernate.jdbc.batch_size"));
 		connectionAvailable = true;
 		try{
 			factory = cfg.buildSessionFactory();
 		}
 		catch(HibernateException e){
+			e.printStackTrace();
 			connectionAvailable = false;
 		}
 	}
 
 	public PostgreSQLCityRegistry() {
-		// TODO Auto-generated constructor stub
+		if(connectionAvailable == false){
+			//Try to init
+			initSessionFactory();
+		}
 	}
 	
 	public boolean isConnectionAvailable(){
@@ -64,7 +75,7 @@ public class PostgreSQLCityRegistry implements CityRegistry {
 			int i = 0;
 			for ( City city : cities ) {
 			    session.save(city);
-			    if ( i % JDBC_BATCH_SIZE == 0 ) { 
+			    if ( i % jdbcBatchSize == 0 ) { 
 			        //Flush a batch of inserts and release memory
 			    	//This makes sure to not overflow memory with big collections
 			        session.flush();
