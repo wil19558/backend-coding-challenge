@@ -21,13 +21,13 @@ public class CitySuggestionRoute implements Route {
 	public Object handle(Request req, Response resp) throws Exception {
 		String response = "";
 		String partialName = req.queryParams("q");
-		if(partialName.isEmpty()){
+		if(partialName == null || partialName.isEmpty()){
 			response = "Use query param 'q' for name search (/suggestions?q=Londo)";
 		}
 		else{
 			List<CityFinderResult> cities = cityFinder.findAndScore(partialName);
 			for(CityFinderResult result : cities){
-				response = response + result.getCity() + "\n";
+				response = response + result.getCity() + "\r\n";
 			}
 		}
 		return response;

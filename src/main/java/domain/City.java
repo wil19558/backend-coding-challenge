@@ -124,7 +124,7 @@ public class City{
 			case 9: //cc2 NOT USED
 				break;
 			case 10://admin1 (province/state)
-				if(city.getCountry() == "CA"){
+				if(city.getCountry().equals("CA")){
 					int province_id = Integer.parseInt(token);
 					token = canadaProvinceCodeToName(province_id);
 				}

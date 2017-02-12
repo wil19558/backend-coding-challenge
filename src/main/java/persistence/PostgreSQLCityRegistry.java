@@ -11,6 +11,8 @@ import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
 import domain.City;
 import domain.CityRegistry;
 import services.SessionFactorySingleton;
@@ -30,22 +32,14 @@ public class PostgreSQLCityRegistry implements CityRegistry {
 	@Override
 	public Collection<City> findCities(String partialName) {
 		Session session = openSession();
+		partialName = "%" + partialName.toLowerCase() + "%";
 		Collection<City> matches = null;
 		try{
-			
-			CriteriaBuilder critBuilder = session.getCriteriaBuilder();
-			CriteriaQuery<City> criteriaQuery = critBuilder.createQuery(City.class);
-			Root<City> city = criteriaQuery.from(City.class);
-			
-			Expression<String> path = city.get("name");
-			Predicate like = critBuilder.like(path, partialName);
-			
-			criteriaQuery.select(city);
-			criteriaQuery.where(like);
-			
-			TypedQuery<City> query = session.createQuery(criteriaQuery);
+			TypedQuery<City> query = session.createQuery("SELECT c FROM City c WHERE lower(name) LIKE :searchName", City.class);
+			query.setParameter("searchName", partialName);
 			
 			matches = query.getResultList();
+			System.out.println(matches.size() + " results.");
 			
 	        session.clear();
 		}
@@ -79,12 +73,13 @@ public class PostgreSQLCityRegistry implements CityRegistry {
 	public void insert(Collection<City> cities) {
 		Session session = openSession();
 		Transaction tx = null;
+		int batchSize = 20;
 		try{
 			tx = session.beginTransaction();
 			int i = 0;
 			for ( City city : cities ) {
 			    session.save(city);
-			    if ( i % session.getJdbcBatchSize() == 0 ) { 
+			    if ( i % batchSize == 0 ) { 
 			        //Flush a batch of inserts and release memory
 			    	//This makes sure to not overflow memory with big collections
 			        session.flush();
