@@ -2,20 +2,17 @@ package nacityfinder;
 
 import static spark.Spark.*;
 
-import rest.LocalPopulateDatabaseRoute;
+import persistence.PostgreSQLCityRegistry;
+
 
 public class NACityFinderServer {
 	
 	public void run() {
-    	prefillDatabase();
         startServer();
     }
 
-	private void prefillDatabase() {
-		
-	}
-
 	private void startServer() {
+		
 	    port(Integer.valueOf(System.getenv("PORT")));
 	    staticFileLocation("/public");
 	    
