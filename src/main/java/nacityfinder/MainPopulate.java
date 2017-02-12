@@ -1,8 +1,5 @@
 package nacityfinder;
 
-import java.io.IOException;
-
-
 import persistence.LocalFileCityRegistry;
 import persistence.PostgreSQLCityRegistry;
 
@@ -30,7 +27,6 @@ public class MainPopulate {
 			
 			System.out.println("Connection to remote database successful.");
 			
-			remoteRegistry.clear();
 			localRegistry.exportTo(remoteRegistry);
 			System.out.println("Successfully populated remote database.");
 			

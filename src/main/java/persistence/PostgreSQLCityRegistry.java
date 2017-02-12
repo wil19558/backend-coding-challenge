@@ -2,7 +2,6 @@ package persistence;
 
 import java.util.Collection;
 
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -10,12 +9,8 @@ import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
-
 import domain.City;
 import domain.CityRegistry;
 import services.SessionFactorySingleton;
@@ -107,12 +102,6 @@ public class PostgreSQLCityRegistry implements CityRegistry {
 	@Override
 	public void exportTo(CityRegistry registry) {
 		throw new RuntimeException("Not implemented");
-	}
-
-	@Override
-	public void clear() {
-		
-		
 	}
 	
 }

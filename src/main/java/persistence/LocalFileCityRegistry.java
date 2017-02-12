@@ -1,6 +1,5 @@
 package persistence;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -72,12 +71,6 @@ public class LocalFileCityRegistry implements CityRegistry {
 	public void exportTo(CityRegistry registry) {
 		registry.insert(this.registry);
 	}
-
-	@Override
-	public void clear() {
-		registry.clear();
-	}
-	
 	
 	public static LocalFileCityRegistry createDefaultInMemoryRegistry(){
 		LocalFileCityRegistry localRegistry = new LocalFileCityRegistry();

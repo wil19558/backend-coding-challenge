@@ -1,12 +1,5 @@
 package domain;
 
-import java.util.List;
-import java.util.function.Consumer;
-
-import org.hibernate.annotations.Entity;
-
-@Entity
-
 public class City{
 	
 	private int dbId;
@@ -86,6 +79,12 @@ public class City{
 		this.state = state;
 	}
 	
+	
+	@Override
+	public String toString() {
+		return getName() + ", " + getState() + ", " + getCountry();
+	}
+
 	/**
 	 * Non-production method. Used rarely to build the database from the tsv file.
 	 * Explains the lack of exception handling.

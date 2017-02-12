@@ -1,7 +1,10 @@
 package rest;
 
+import java.util.List;
+
 import domain.CityRegistry;
 import services.CityFinder;
+import services.CityFinderResult;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -16,7 +19,13 @@ public class CitySuggestionRoute implements Route {
 	}
 	
 	public Object handle(Request req, Response resp) throws Exception {
-		return null;
+		String response = "";
+		String partialName = req.queryParams("q");
+		List<CityFinderResult> cities = cityFinder.findAndScore(partialName);
+		for(CityFinderResult result : cities){
+			response = response + result.getCity() + "\n";
+		}
+		return response;
 	}
 
 }

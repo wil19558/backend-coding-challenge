@@ -23,7 +23,12 @@ public class CityFinder {
 		this.cityRegistry = cityRegistry;
 	}
 	
-	public List<CityFinderResult> findAndScore(String partialName, double lattitude, double longitude){
+	public List<CityFinderResult> findAndScore(String partialName){
+		return findAndScore(partialName, null, null);
+	}
+	
+	public List<CityFinderResult> findAndScore(String partialName, Double lattitude, Double longitude){
+		
 		Collection<City> partialMatchCities = cityRegistry.findCities(partialName);
 		LinkedList<CityFinderResult> results = new LinkedList<>();
 		for(City city : partialMatchCities){
