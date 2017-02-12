@@ -8,25 +8,21 @@ import persistence.PostgreSQLCityRegistry;
 
 public class MainPopulate {
 
-	private static final String CITY_REGISTRY_FILE = "/data/cities_canada-usa.tsv"; 
 	
 	public static void main(String[] args) {
 
 		System.out.println("Loading cities from file.");
 		//This loads the cities from the local file.
 		try{
-			LocalFileCityRegistry localRegistry = new LocalFileCityRegistry();
-			PostgreSQLCityRegistry remoteRegistry = new PostgreSQLCityRegistry();
-			
-			//localRegistry.importRegistryFrom(CITY_REGISTRY_FILE);
-			
-			System.out.println("File opened successfully.");
+			LocalFileCityRegistry localRegistry = LocalFileCityRegistry.createDefaultInMemoryRegistry();
 			
 			if(localRegistry.getCityCount() <= 0){
-				//throw new Exception("No cities were loaded.");
+				throw new Exception("No cities were loaded.");
 			}
 			
 			System.out.println(localRegistry.getCityCount() + " cities added to local (in memory) registry.");
+
+			PostgreSQLCityRegistry remoteRegistry = new PostgreSQLCityRegistry();
 			
 			if(!remoteRegistry.isConnectionAvailable()){
 				throw new Exception("Unable to initiate remote database connection.");
@@ -39,11 +35,8 @@ public class MainPopulate {
 			System.out.println("Successfully populated remote database.");
 			
 		}
-		catch(IOException e){
-			//URL location = Test.class.getProtectionDomain().getCodeSource().getLocation();
-			System.out.println("Unable to find file. The server is probably not running local. Current root : " + System.getProperty("user.dir"));
-		}
 		catch(Exception e){
+			e.printStackTrace();
 			System.out.println("Error occured : " + e.getMessage());
 		}
 		

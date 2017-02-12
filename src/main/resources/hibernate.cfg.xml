@@ -6,6 +6,11 @@
    <session-factory>
 	<property name="connection.driver_class">org.postgresql.Driver</property>
 	
+	<!-- URL, Username and password manually set at runtime -->
+    <property name="hibernate.connection.url">none</property>
+	<property name="hibernate.connection.username">none</property>
+    <property name="hibernate.connection.password">none</property>
+        
    	<property name="hibernate.dialect">
       org.hibernate.dialect.PostgreSQLDialect
    	</property>
@@ -17,9 +22,11 @@
    
 	<!-- Echo all executed SQL to stdout -->
 	<property name="show_sql">true</property>
-
-   <!-- List of XML mapping files -->
-   <mapping resource="City.hbm.xml"/>
+	
+	<property name="hbm2ddl.auto">create</property>
+	
+   	<!-- List of XML mapping files -->
+   	<mapping resource="City.hbm.xml"/>
 
 </session-factory>
 </hibernate-configuration>

@@ -3,6 +3,10 @@ package domain;
 import java.util.List;
 import java.util.function.Consumer;
 
+import org.hibernate.annotations.Entity;
+
+@Entity
+
 public class City{
 	
 	private int dbId;

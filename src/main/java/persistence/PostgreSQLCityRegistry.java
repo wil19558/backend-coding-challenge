@@ -18,8 +18,12 @@ import domain.CityRegistry;
 
 public class PostgreSQLCityRegistry implements CityRegistry {
 	
+	private static final String JDBC_USERNAME = "faimmhvkknyehm";
+	private static final String JDBC_PASSWORD = "a2e6cb788d384ea01888a3e6bcde271e095a7e0bf3ee45bfe9c589afa6988c5b";
+	
 	private static final String JDBC_DATABASE_URL = "jdbc:postgresql://ec2-54-221-255-153.compute-1.amazonaws.com:5432/d36apmh339fm0s?"
-			+ "sslmode=require&user=faimmhvkknyehm&password=a2e6cb788d384ea01888a3e6bcde271e095a7e0bf3ee45bfe9c589afa6988c5b";
+			+ "sslmode=require&user=" + JDBC_USERNAME + "&password=" + JDBC_PASSWORD;
+	
 	
 	private static final String DATABASE_URL = "postgres://faimmhvkknyehm:a2e6cb788d384ea01888a3e6bcde271e095a7e0bf3ee45bfe9c589afa6988c5b@"
 			+ "ec2-54-221-255-153.compute-1.amazonaws.com:5432/d36apmh339fm0s";
@@ -31,7 +35,11 @@ public class PostgreSQLCityRegistry implements CityRegistry {
 	public static void initSessionFactory(){
 		//Load the actual database url at runtime
 		Configuration cfg = new Configuration().configure();
+		
 		cfg.setProperty("hibernate.connection.url", JDBC_DATABASE_URL);
+		cfg.setProperty("hibernate.connection.username", JDBC_USERNAME);
+		cfg.setProperty("hibernate.connection.password", JDBC_PASSWORD);
+		
 		jdbcBatchSize = Integer.parseInt(cfg.getProperty("hibernate.jdbc.batch_size"));
 		connectionAvailable = true;
 		try{
@@ -62,8 +70,18 @@ public class PostgreSQLCityRegistry implements CityRegistry {
 
 	@Override
 	public void insert(City city) {
-		// TODO Auto-generated method stub
-
+		Session session = factory.openSession();
+		Transaction tx = null;
+		try{
+			tx = session.beginTransaction();
+		    session.save(city);
+	        session.flush();
+	        session.clear();
+			tx.commit();
+		}
+		finally {
+			session.close();
+		}
 	}
 
 	@Override

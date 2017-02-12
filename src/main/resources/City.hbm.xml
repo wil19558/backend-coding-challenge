@@ -9,7 +9,7 @@
          This class contains information about a city 
       </meta>
       <id name="dbId" type="int" column="id">
-         <generator class="native"/>
+         <generator class="identity"/>
       </id>
       <property name="cityId" column="city_id" type="int"/>
       <property name="name" column="name" type="string"/>

@@ -13,6 +13,8 @@ import domain.City;
 import domain.CityRegistry;
 
 public class LocalFileCityRegistry implements CityRegistry {
+
+	private static final String DEFAULT_CITY_REGISTRY_FILE = "data/cities_canada-usa.tsv"; 
 	
 	private List<City> registry;
 	
@@ -21,9 +23,7 @@ public class LocalFileCityRegistry implements CityRegistry {
 	}
 	
 	public void importRegistryFrom(String path) throws IOException{
-        Path resolvedPath = Paths.get(path);
-        File f = new File(path);
-        System.out.println(f.exists());
+        Path resolvedPath = Paths.get(System.getProperty("user.dir"), path);
 		Files.lines(resolvedPath).forEach(s -> {
 			City city = new City();
 			try{
@@ -76,6 +76,20 @@ public class LocalFileCityRegistry implements CityRegistry {
 	@Override
 	public void clear() {
 		registry.clear();
+	}
+	
+	
+	public static LocalFileCityRegistry createDefaultInMemoryRegistry(){
+		LocalFileCityRegistry localRegistry = new LocalFileCityRegistry();
+		
+		try {
+			localRegistry.importRegistryFrom(DEFAULT_CITY_REGISTRY_FILE);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return localRegistry;
 	}
 
 }

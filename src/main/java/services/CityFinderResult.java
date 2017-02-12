@@ -14,11 +14,21 @@ public class CityFinderResult {
 		this.city = city;
 	}
 	
+	public CityFinderResult withCity(City city){
+		setCity(city);
+		return this;
+	}
+	
 	public double getScore() {
 		return score;
 	}
 	
 	public void setScore(double score) {
 		this.score = score;
+	}
+	
+	public CityFinderResult withScore(double score){
+		setScore(score);
+		return this;
 	}
 }

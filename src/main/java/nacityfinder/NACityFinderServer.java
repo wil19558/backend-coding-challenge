@@ -21,9 +21,6 @@ public class NACityFinderServer {
 	    
 		get("/", (req, rep) -> "Hello World");
 		
-		//Debug route to populate db with file contents
-		get("/local-db-populate", new LocalPopulateDatabaseRoute());
-		
 		//Basic exception handling
 		exception(Exception.class, (e, request, response) -> {
 		    response.status(500);
