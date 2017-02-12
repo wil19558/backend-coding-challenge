@@ -3,7 +3,7 @@ package nacityfinder;
 import static spark.Spark.*;
 
 import persistence.PostgreSQLCityRegistry;
-
+import rest.CitySuggestionRoute;
 
 public class NACityFinderServer {
 	
@@ -17,6 +17,8 @@ public class NACityFinderServer {
 	    staticFileLocation("/public");
 	    
 		get("/", (req, rep) -> "Hello World");
+		
+		get("/suggestions", new CitySuggestionRoute(new PostgreSQLCityRegistry()));
 		
 		//Basic exception handling
 		exception(Exception.class, (e, request, response) -> {
