@@ -17,7 +17,6 @@ public class SessionFactorySingleton {
 	private SessionFactory factory = null; 
 	
 	private Configuration configuration;
-	private int jdbcBatchSize = 1;
 	private boolean connectionAvailable = false;
 	
 	//Used to disable error print after first stack trace.
@@ -30,8 +29,6 @@ public class SessionFactorySingleton {
 		configuration.setProperty("hibernate.connection.url", JDBC_DATABASE_URL);
 		configuration.setProperty("hibernate.connection.username", JDBC_USERNAME);
 		configuration.setProperty("hibernate.connection.password", JDBC_PASSWORD);
-		
-		jdbcBatchSize = Integer.parseInt(configuration.getProperty("hibernate.jdbc.batch_size"));
 		
 		attemptToBuildFactory();
 	}
@@ -64,10 +61,6 @@ public class SessionFactorySingleton {
 	public SessionFactory getSessionFactory(){
 		verifyConnection();
 		return factory;
-	}
-	
-	public int getJdbcBatchSize(){
-		return jdbcBatchSize;
 	}
    
 	public static SessionFactorySingleton getInstance() {
