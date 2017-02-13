@@ -79,6 +79,10 @@ public class City{
 		this.state = state;
 	}
 	
+	public double distanceFrom(double lat, double lng){
+		return Math.abs(Math.hypot(lat-this.lattitude, lng-this.longitude));
+	}
+	
 	
 	@Override
 	public String toString() {

@@ -16,7 +16,7 @@ public class NACityFinderServer {
 	    port(Integer.valueOf(System.getenv("PORT")));
 	    staticFileLocation("/public");
 	    
-		get("/", (req, rep) -> "Hello World");
+		get("/", (req, rep) -> "Welcome to na-city-finder ! Head down to /suggestions for North American city suggestions.");
 		
 		get("/suggestions", new CitySuggestionRoute(new PostgreSQLCityRegistry()));
 		

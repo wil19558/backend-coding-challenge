@@ -2,6 +2,9 @@ package rest;
 
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+
 import domain.CityRegistry;
 import services.CityFinder;
 import services.CityFinderResult;
@@ -19,18 +22,45 @@ public class CitySuggestionRoute implements Route {
 	}
 	
 	public Object handle(Request req, Response resp) throws Exception {
-		String response = "";
-		String partialName = req.queryParams("q");
+		JsonArrayBuilder jsonArray = Json.createArrayBuilder();
+		String partialName = extractQuery(req);
+		Double latitude = extractLatitude(req);
+		Double longitude = extractLongitude(req);
+		
 		if(partialName == null || partialName.isEmpty()){
-			response = "Use query param 'q' for name search (/suggestions?q=Londo)";
+			//response = "Use query param 'q' for name search (/suggestions?q=Londo)";
 		}
 		else{
-			List<CityFinderResult> cities = cityFinder.findAndScore(partialName);
+			List<CityFinderResult> cities = cityFinder.findAndScore(partialName, latitude, longitude);
 			for(CityFinderResult result : cities){
-				response = response + result.getCity() + "\r\n";
+				jsonArray.add(result.asJsonObject());
 			}
 		}
-		return response;
+		
+	    resp.type("application/json");
+		return jsonArray.build();
+	}
+	
+	private String extractQuery(Request req){
+		return req.queryParams("q");
+	}
+	
+	private Double extractLatitude(Request req){
+		return extractDouble(req, "latitude");
+	}
+	
+	private Double extractLongitude(Request req){
+		return extractDouble(req, "longitude");
+	}
+	
+	private Double extractDouble(Request req, String queryParam){
+		Double lat = null;
+		try{
+			lat = Double.parseDouble(req.queryParams(queryParam));
+		}
+		catch(Exception e){}
+		
+		return lat;
 	}
 
 }
