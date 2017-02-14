@@ -17,9 +17,9 @@ and execute search statement based on queries.
 
 All dependancies are managed through Maven.
 
--**Spark** for API routes
--**Hibernate** for object relationnal mapping to database
--**PostgreSQL** for JDBC connection drivers
+- **Spark** for API routes
+- **Hibernate** for object relationnal mapping to database
+- **PostgreSQL** for JDBC connection drivers
 
 ### City Informations
 
@@ -37,8 +37,12 @@ Normal build :
 Populate Database build :
 - Procfile_populateDb : for deployment on Windows machines
 
-This build loads an in-memory registry and batch inserts the cities in the database registry. NOTE : this does not delete 
-rows from the database. To clear the database, uncomment <property name="hbm2ddl.auto">create</property> in hibernate.cfg.xml.
+This second build loads an in-memory registry and batch-inserts the cities in the database registry. NOTE : this does not delete 
+rows from the database. To clear the database, uncomment
+```xml 
+<property name="hbm2ddl.auto">create</property> 
+```
+in hibernate.cfg.xml.
 After the database is populated (it should take around a minute), do not forget to remove the property from the config file.
 
 
