@@ -28,7 +28,9 @@ public class CitySuggestionRoute implements Route {
 		Double longitude = extractLongitude(req);
 		
 		if(partialName == null || partialName.isEmpty()){
-			//response = "Use query param 'q' for name search (/suggestions?q=Londo)";
+			throw new ClientErrorException("Use query param 'q' (e.g. ...?q=New York...) to use suggestions feature. "
+					+ "Optionnally, use query param latitude and longitude to specify a search origin for the scoring "
+					+ "algorithm.");
 		}
 		else{
 			List<CityFinderResult> cities = cityFinder.findAndScore(partialName, latitude, longitude);
