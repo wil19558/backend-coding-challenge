@@ -26,6 +26,11 @@ All dependancies are managed through Maven.
 All city information is fetched from the database. However, a local version can be ran using an "in-memory" city registry through
 the use of a convenient interface. The CityFinder uses whatever CityRegistry is passed during construction.
 
+### Scoring Algorithm
+
+The scoring algorithm used is a very simple interpolator based on distance to city. The score is not based on the exactitude of the partial string match.
+The actual interpolation was tweeked so that it "looked good".
+
 ## Build and deployment
 
 Different Heroku Procfile are included, for different purposes :
@@ -45,8 +50,10 @@ rows from the database. To clear the database, uncomment
 in hibernate.cfg.xml.
 After the database is populated (it should take around a minute), do not forget to remove the property from the config file.
 
+## Possible Ameliorations
 
-
+- Abstract the api routes from Spark. Use an interface/abstract class combination so that it is : 1. Easier to test, and 2. Easier to change the underlying framework (Spark).
+- Modify the scoring algorithm so that it also considers the exactness of the string match.
 
 # (Original Text) Coveo Backend Coding Challenge
 (inspired by https://github.com/busbud/coding-challenge-backend-c)
