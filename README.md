@@ -13,6 +13,9 @@ This is for the Coveo Coding Challenge, which is the origin of the fork. The ori
 The api is hosted by Heroku at https://na-city-finder.herokuapp.com. The api uses an Heroku-managed PostgreSQL to store cities
 and execute search statement based on queries.
 
+NOTE : if Heroku's dyno is starting up when first requesting the page, the website might return a 404 not found on a valid path (/ or /suggestions). 
+Simply reload the page in this case.
+
 ### Frameworks
 
 All dependancies are managed through Maven.
