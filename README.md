@@ -1,4 +1,50 @@
-# Coveo Backend Coding Challenge
+
+
+
+# North-American City Finder (na-city-finder)
+
+Simple Java implementation of a suggestion api for north-american cities that have a population larger than 5000. 
+This is for the Coveo Coding Challenge, which is the origin of the fork. The original text is at the bottom of this page.
+
+## Implementation Details
+
+### Hosting and services
+
+The api is hosted by Heroku at https://na-city-finder.herokuapp.com. The api uses an Heroku-managed PostgreSQL to store cities
+and execute search statement based on queries.
+
+### Frameworks
+
+All dependancies are managed through Maven.
+
+-**Spark** for API routes
+-**Hibernate** for object relationnal mapping to database
+-**PostgreSQL** for JDBC connection drivers
+
+### City Informations
+
+All city information is fetched from the database. However, a local version can be ran using an "in-memory" city registry through
+the use of a convenient interface. The CityFinder uses whatever CityRegistry is passed during construction.
+
+## Build and deployment
+
+Different Heroku Procfile are included, for different purposes :
+
+Normal build :
+- Procfile : for standard deployment to Heroku
+- Procfile_local : for deployment on Windows machines (dev pc)
+
+Populate Database build :
+- Procfile_populateDb : for deployment on Windows machines
+
+This build loads an in-memory registry and batch inserts the cities in the database registry. NOTE : this does not delete 
+rows from the database. To clear the database, uncomment <property name="hbm2ddl.auto">create</property> in hibernate.cfg.xml.
+After the database is populated (it should take around a minute), do not forget to remove the property from the config file.
+
+
+
+
+# (Original Text) Coveo Backend Coding Challenge
 (inspired by https://github.com/busbud/coding-challenge-backend-c)
 
 ## Requirements
