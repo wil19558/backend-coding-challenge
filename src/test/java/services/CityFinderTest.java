@@ -1,8 +1,10 @@
 package services;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.After;
@@ -24,7 +26,7 @@ public class CityFinderTest {
 	}
 
 	@Test
-	public void testFindAndScore() throws Exception {
+	public void testFindAndScore_should_findLondonON_when_partialNameIsLondo() throws Exception {
 		CityRegistry registry = LocalFileCityRegistry.createDefaultInMemoryRegistry();
 		
 		assertNotNull(registry);
@@ -48,6 +50,28 @@ public class CityFinderTest {
 		if(!found){
 			fail("Expected London, ON, Canada in results.");
 		}
+	}
+
+	@Test
+	public void testFindAndScore_should_callCityRegistryFindCities() throws Exception {
+		CityRegistry registryMock = mock(CityRegistry.class);
+		
+		String partialName = "asdfgh";
+		int cityId = 3456;
+		
+		//Mock returns a single city.
+		City expectedCity = new City();
+		expectedCity.setCityId(cityId);
+		LinkedList<City> returnedList = new LinkedList<City>();
+		returnedList.add(expectedCity);
+		
+		when(registryMock.findCities(partialName)).thenReturn(returnedList);
+		
+		CityFinder cityFinder = new CityFinder(registryMock);
+		
+		List<CityFinderResult> foundCities = cityFinder.findAndScore(partialName);
+		
+		assertTrue(foundCities.get(0).getCity().getCityId() == cityId);
 	}
 
 }

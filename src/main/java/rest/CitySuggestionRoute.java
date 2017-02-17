@@ -6,13 +6,16 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 
 import domain.CityRegistry;
+import restinterface.AbstractRequestHandler;
+import restinterface.Answer;
+import restinterface.Query;
 import services.CityFinder;
 import services.CityFinderResult;
 import spark.Request;
 import spark.Response;
 import spark.Route;
 
-public class CitySuggestionRoute implements Route {
+public class CitySuggestionRoute extends AbstractRequestHandler {
 	
 	private CityFinder cityFinder;
 	
@@ -20,12 +23,13 @@ public class CitySuggestionRoute implements Route {
 	public CitySuggestionRoute(CityRegistry registry){
 		cityFinder = new CityFinder(registry);
 	}
-	
-	public Object handle(Request req, Response resp) throws Exception {
+
+	@Override
+	public void process(Query query, Answer ans) throws Exception {
 		JsonArrayBuilder jsonArray = Json.createArrayBuilder();
-		String partialName = extractQuery(req);
-		Double latitude = extractLatitude(req);
-		Double longitude = extractLongitude(req);
+		String partialName = extractQuery(query);
+		Double latitude = extractLatitude(query);
+		Double longitude = extractLongitude(query);
 		
 		if(partialName == null || partialName.isEmpty()){
 			throw new ClientErrorException("Use query param 'q' (e.g. ...?q=New York...) to use suggestions feature. "
@@ -39,26 +43,27 @@ public class CitySuggestionRoute implements Route {
 			}
 		}
 		
-	    resp.type("application/json");
-		return jsonArray.build();
+	    ans.setContentType("application/json");
+	    ans.setBody(jsonArray.build().toString());
+	    ans.setHttpStatus(200);
 	}
 	
-	private String extractQuery(Request req){
-		return req.queryParams("q");
+	private String extractQuery(Query query){
+		return query.getQueryParam("q");
 	}
 	
-	private Double extractLatitude(Request req){
-		return extractDouble(req, "latitude");
+	private Double extractLatitude(Query query){
+		return extractDouble(query, "latitude");
 	}
 	
-	private Double extractLongitude(Request req){
-		return extractDouble(req, "longitude");
+	private Double extractLongitude(Query query){
+		return extractDouble(query, "longitude");
 	}
 	
-	private Double extractDouble(Request req, String queryParam){
+	private Double extractDouble(Query query, String queryParam){
 		Double lat = null;
 		try{
-			lat = Double.parseDouble(req.queryParams(queryParam));
+			lat = Double.parseDouble(query.getQueryParam(queryParam));
 		}
 		catch(Exception e){}
 		

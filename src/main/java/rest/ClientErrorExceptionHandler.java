@@ -4,22 +4,27 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 
+import restinterface.AbstractExceptionHandler;
+import restinterface.Answer;
+import restinterface.Query;
 import spark.ExceptionHandler;
 import spark.Request;
 import spark.Response;
 
-public class ClientErrorExceptionHandler implements ExceptionHandler {
+public class ClientErrorExceptionHandler extends AbstractExceptionHandler {
+
 
 	@Override
-	public void handle(Exception e, Request req, Response res) {
+	public void process(Exception e, Query query, Answer ans) {
 		JsonObjectBuilder jsonObject = Json.createObjectBuilder();
 
-	    res.status(401);
+	    ans.setHttpStatus(401);
 		jsonObject.add("type", e.getClass().getSimpleName());
 		jsonObject.add("message", e.getMessage());
 
-	    res.type("application/json");
-		res.body(jsonObject.build().toString());
+	    ans.setContentType("application/json");
+		ans.setBody(jsonObject.build().toString());
+		
 	}
 
 }
