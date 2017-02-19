@@ -12,6 +12,7 @@ import spark.Response;
  */
 public abstract class AbstractExceptionHandler implements ExceptionHandler, RequestExceptionHandler {
 
+	
 
 	@Override
 	public final void handle(Exception e, Request req, Response res) {
@@ -22,4 +23,7 @@ public abstract class AbstractExceptionHandler implements ExceptionHandler, Requ
 		
 		answer.copyTo(res);
 	}
+	
+	@Override
+	public abstract void process(Exception e, Query query, Answer ans);
 }

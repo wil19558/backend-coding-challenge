@@ -25,4 +25,7 @@ public abstract class AbstractRequestHandler implements RequestHandler, Route{
 		return answer.getBody();
 	}
 	
+	@Override
+	public abstract void process(Query query, Answer ans) throws Exception;
+	
 }
