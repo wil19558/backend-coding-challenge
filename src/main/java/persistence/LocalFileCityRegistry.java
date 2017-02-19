@@ -5,14 +5,42 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import domain.City;
 import domain.CityRegistry;
 
 public class LocalFileCityRegistry implements CityRegistry {
 
+	private static final Map<Integer, String> CANADA_PROVINCES_INITIALS;
+	
+	static{
+		HashMap<Integer, String> temp = new HashMap<Integer, String>();
+		
+		temp.put(1, "AB");
+		temp.put(2, "BC");
+		temp.put(3, "MB");
+		temp.put(4, "NB");
+		temp.put(5, "NL");
+		temp.put(6, "");
+		temp.put(7, "NS");
+		temp.put(8, "ON");
+		temp.put(9, "PE");
+		temp.put(10, "QC");
+		temp.put(11, "SK");
+		temp.put(12, "YT");
+		temp.put(13, "NT");
+		temp.put(14, "NU");
+		
+		CANADA_PROVINCES_INITIALS = Collections.unmodifiableMap(temp);
+	}
+	
+	
+	
 	private static final String DEFAULT_CITY_REGISTRY_FILE = "data/cities_canada-usa.tsv"; 
 	
 	private List<City> registry;
@@ -83,6 +111,10 @@ public class LocalFileCityRegistry implements CityRegistry {
 		}
 		
 		return localRegistry;
+	}
+	
+	public static String getCanadaProvinceInitials(int number){
+		return CANADA_PROVINCES_INITIALS.get(number);
 	}
 
 }

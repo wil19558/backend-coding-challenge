@@ -1,6 +1,12 @@
 package domain;
 
+import persistence.LocalFileCityRegistry;
+
 public class City{
+	
+	
+	
+	
 	
 	private int dbId;
 	private int cityId;
@@ -91,7 +97,7 @@ public class City{
 
 	/**
 	 * Non-production method. Used rarely to build the database from the tsv file.
-	 * Explains the lack of exception handling.
+	 * Explains the lack of exception handling and undesirable switch case.
 	 * 
 	 * @param tsvLine
 	 * @return
@@ -130,60 +136,12 @@ public class City{
 			case 10://admin1 (province/state)
 				if(city.getCountry().equals("CA")){
 					int province_id = Integer.parseInt(token);
-					token = canadaProvinceCodeToName(province_id);
+					token = LocalFileCityRegistry.getCanadaProvinceInitials(province_id);
 				}
 				city.setState(token);
 				break;
 			}
 			token_index++;
 		}	
-	}
-	
-	private static String canadaProvinceCodeToName(int code){
-		String name = "" + code;
-		switch(code){
-		case 1: //alberta
-			name = "AB";
-			break;
-		case 2: //BC
-			name = "BC";
-			break;
-		case 3: //Manitoba
-			name = "MB";
-			break;
-		case 4: //NB
-			name = "NB";
-			break;
-		case 5: // Newfound
-			name = "NL";
-			break;
-		case 6: // None
-			break;
-		case 7: //Nova Scotia
-			name = "NS";
-			break;
-		case 8: //Ontario
-			name= "ON";
-			break;
-		case 9: //Prince Ed
-			name = "PE";
-			break;
-		case 10: //Quebec
-			name = "QC";
-			break;
-		case 11: //Sask
-			name = "SK";
-			break;
-		case 12: //Yukon
-			name = "YT";
-			break;
-		case 13: //Northwest
-			name = "NT";
-			break;
-		case 14: //Nunavut
-			name = "NU";
-			break;
-		}
-		return name;
 	}
 }

@@ -1,5 +1,6 @@
 package restinterface;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import spark.Request;
@@ -16,6 +17,11 @@ public class Query {
 	private Map<String, String[]> queryParams;
 	private String body;
 	
+	public Query(){
+		body = "";
+		queryParams = new HashMap<String, String[]>();
+	}
+	
 	public Query(Request sparkRequest) {
 		body = sparkRequest.body();
 		queryParams = sparkRequest.queryMap().toMap();
@@ -23,6 +29,11 @@ public class Query {
 
 	public Map<String, String[]> getQueryParams() {
 		return queryParams;
+	}
+	
+	public void addQueryParam(String name, String value){
+		String[] strings = {value};
+		queryParams.put(name, strings);
 	}
 	
 	public String getQueryParam(String name) {
